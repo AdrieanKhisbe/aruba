@@ -29,22 +29,18 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
 end
 
 When(/I run the following script:$/) do |file_content|
-  step 'an executable named "bin/myscript" with:', file_content
-  step 'When I run `myscript`'
+  prepend_environment_variable('PATH', expand_path('bin') + ':')
+  step 'an executable named "./bin/myscript" with:', file_content
+  step 'I run `myscript`'
 end
 
-When(/^I run the following (bash|zsh)? ?commands?:$/) do |shell_type, file_content|
-  shell_cmd = case shell_type
-              when 'zsh' then '/bin/zsh'
-              when 'dash' then '/bin/dash'
-              when 'fish' then '/bin/fish'
-              when 'bash' then '/bin/bash'
-              else '/bin/bash'
-              end
+When(/^I run the following (bash|zsh|fish|dash)? ?commands?:$/) do |shell_type, file_content|
+  prepend_environment_variable('PATH', expand_path('bin') + ':')
+  shell_type ||= 'bash'
   step 'an executable named "bin/myscript" with:',
-       "#!#{shell_cmd}
-#{file_content}"
-  step 'When I run `myscript`'
+       "#!/usr/bin/env #{shell_type}
+       #{file_content}"
+  step 'I run `myscript`'
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|
