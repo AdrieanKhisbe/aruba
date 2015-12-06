@@ -28,6 +28,11 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   run_simple(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
 end
 
+When(/^I run the following script:$/) do |file_content|
+  step 'an executable named "tmp/script" with:', file_content
+  step 'When I run "tmp/script"'
+end
+
 When(/^I run "([^"]*)" interactively$/) do |cmd|
   Aruba.platform.deprecated(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
