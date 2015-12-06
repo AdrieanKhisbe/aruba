@@ -33,14 +33,13 @@ When(/I run the following script:$/) do |file_content|
   step 'When I run `myscript`'
 end
 
-
 When(/^I run the following (bash|zsh)? ?commands?:$/) do |shell_type, file_content|
   shell_cmd = case shell_type
-                when zsh then '/bin/zsh'
-                when dash then '/bin/dash'
-                when fish then '/bin/fish'
-                when bash then '/bin/bash'
-                  else '/bin/bash'
+              when 'zsh' then '/bin/zsh'
+              when 'dash' then '/bin/dash'
+              when 'fish' then '/bin/fish'
+              when 'bash' then '/bin/bash'
+              else '/bin/bash'
               end
   step 'an executable named "bin/myscript" with:',
        "#!#{shell_cmd}
