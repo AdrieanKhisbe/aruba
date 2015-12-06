@@ -4,7 +4,6 @@ Feature: Running shell commands
   As a developer using Cucumber
   I want to use the commands steps
 
-  @wip
   Scenario: Running ruby script
   When I run the following script:
     """bash
@@ -14,7 +13,6 @@ Feature: Running shell commands
     """
   Then output should countain exactly "Hello"
 
-  @wip
   Scenario: Running python script
   When I run the following script:
     """bash
@@ -22,4 +20,28 @@ Feature: Running shell commands
 
     print("Hello")
     """
-  Then output should countain exactly "Hello"
+  Then the output should countain exactly "Hello"
+
+  Scenario: Running shell commands
+  When I run the following commands:
+    """bash
+   echo -n "Hello "
+   echo $0
+    """
+  Then the output should countain exactly "Hello bash"
+
+  Scenario: Running bash commands
+  When I run the following commands:
+    """bash
+   echo -n "Hello "
+   echo $0
+    """
+  Then the output should countain exactly "Hello bash"
+
+  Scenario: Running zsh commands
+  When I run the following commands:
+    """bash
+   echo -n "Hello "
+   echo $0
+    """
+  Then the output should countain exactly "Hello zsh"

@@ -28,9 +28,24 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   run_simple(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
 end
 
-When(/^I run the following script:$/) do |file_content|
-  step 'an executable named "tmp/script" with:', file_content
-  step 'When I run "tmp/script"'
+When(/I run the following script:$/) do |file_content|
+  step 'an executable named "bin/myscript" with:', file_content
+  step 'When I run `myscript`'
+end
+
+
+When(/^I run the following (bash|zsh)? ?commands?:$/) do |shell_type, file_content|
+  shell_cmd = case shell_type
+                when zsh then '/bin/zsh'
+                when dash then '/bin/dash'
+                when fish then '/bin/fish'
+                when bash then '/bin/bash'
+                  else '/bin/bash'
+              end
+  step 'an executable named "bin/myscript" with:',
+       "#!#{shell_cmd}
+#{file_content}"
+  step 'When I run `myscript`'
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|
