@@ -4,55 +4,65 @@ Feature: Running shell commands
   As a developer using Cucumber
   I want to use the commands steps
 
+  Background:
+    Given I use a fixture named "cli-app"
+
   Scenario: Running script
-    Given a file named "features/run.feature" with:
+    Given a file named "features/sehll.feature" with:
+
     """
-     Scenario: Running ruby script
-     When I run the following script:
+   Feature: Running scripts
+    Scenario: Running ruby script
+      When I run the following script:
         \"\"\"bash
         #!/usr/bin/env ruby
 
       puts "Hello"
       \"\"\"
-    Then output should contain exactly "Hello"
+      Then the output should contain exactly "Hello"
+
 
      Scenario: Running python script
      When I run the following script:
         \"\"\"bash
         #!/usr/bin/env python
 
-      print("Hello")
-      \"\"\"
-     Then output should contain exactly "Hello"
+        print("Hello")
+        \"\"\"
+     Then the output should contain exactly "Hello"
+
+
     """
     When I run `cucumber`
     Then the features should all pass
 
   Scenario: Running shell commands
-    Given a file named "features/run.feature" with:
+    Given a file named "features/shell.feature" with:
      """
-     Scenario: Running shell commands
-      When I run the following commands:
-      \"\"\"bash
-         echo "Hello shell
-      \"\"\"
-      Then the output should contain exactly "Hello shell"
+     Feature: Running shell commands
 
-    Scenario: Running bash commands
-      When I run the following bash commands:
+       Scenario: Running shell commands
+        When I run the following commands:
         \"\"\"bash
-       echo -n "Hello "
-       echo `echo bash` # subshell
+           echo "Hello shell"
         \"\"\"
-      Then the output should contain exactly "Hello bash"
+        Then the output should contain exactly "Hello shell"
 
-    Scenario: Running zsh commands
-      When I run the following zsh commands:
-        \"\"\"bash
-       echo -n "Hello "
-       echo $((2 + 2))
-        \"\"\"
-      Then the output should contain exactly "Hello 4"
+      Scenario: Running bash commands
+        When I run the following bash commands:
+          \"\"\"bash
+         echo -n "Hello "
+         echo `echo bash` # subshell
+          \"\"\"
+        Then the output should contain exactly "Hello bash"
+
+      Scenario: Running zsh commands
+        When I run the following zsh commands:
+          \"\"\"bash
+         echo -n "Hello "
+         echo $((2 + 2))
+          \"\"\"
+        Then the output should contain exactly "Hello 4"
       
       Scenario: Running fish commands
         When I run the following fish commands:
