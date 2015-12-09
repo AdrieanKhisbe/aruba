@@ -34,8 +34,8 @@ When(/I run the following script:$/) do |file_content|
   step 'I run `myscript`'
 end
 
-When(/^I run the following (bash|zsh|fish|dash)? ?commands?:$/) do |shell_type, file_content|
-  prepend_environment_variable('PATH', expand_path('bin') + ':')
+When(/^I run the following (?:(bash|zsh|fish|dash) )?commands?:$/) do |shell_type, file_content|
+  # prepend_environment_variable('PATH', expand_path('bin') + ':')
   shell_type ||= 'bash'
   step 'an executable named "bin/myscript" with:',
        "#!/usr/bin/env #{shell_type}
