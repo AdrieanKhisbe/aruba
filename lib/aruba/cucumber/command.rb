@@ -38,8 +38,8 @@ When(/^I run the following(?: (bash|zsh|fish|dash))? commands?:$/) do |shell_typ
   prepend_environment_variable('PATH', expand_path('bin') + ':')
   shell_type ||= 'bash'
 
-  gen = ScriptFile.new generator: shell_type, content: file_content, path: expand_path('bin/myscript')
-  gen.call
+  ScriptFile.new(:generator => shell_type, :content => file_content,
+                 :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
 end
 

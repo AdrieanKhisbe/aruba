@@ -10,24 +10,22 @@ module Aruba
         @content = content
       end
 
-      class << self
-        def match?(matcher)
-          matcher == name
-        end
+      def match?(matcher)
+        matcher == name
+      end
 
-        def name
-          raise Error, 'Name must be redefined'
-        end
+      def name
+        raise Error, 'Name must be redefined'
+      end
 
-        def header
-          "#!/usr/bin/env #{name}"
-        end
+      def header
+        "#!/usr/bin/env #{name}"
+      end
 
-        def call
-         text = "#{header}\n#{@content}"
-         write_file(@path, text)
-         chmod('0755', @path)
-        end
+      def call
+        text = "#{header}\n#{@content}"
+        Aruba.platform.write_file(@path, text)
+        Aruba.platform.chmod('0755', @path)
       end
 
     end
@@ -75,7 +73,7 @@ module Aruba
     end
 
     def call
-      @generator.call
+      @gen.call
     end
   end
 end
