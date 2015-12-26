@@ -9,7 +9,11 @@ module Aruba
     end
 
     def call
-      Aruba.platform.write_file(path, "#{header}\n#{content}")
+      if content.split[0] =~ /^#!/
+        Aruba.platform.write_file(path, content)
+      else
+        Aruba.platform.write_file(path, "#{header}\n#{content}")
+      end
       Aruba.platform.chmod('0755', path)
     end
 

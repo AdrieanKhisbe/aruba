@@ -33,8 +33,7 @@ When(/^I run the following commands(?: with `([^`]+))?`:$/) do |shell, commands|
 
   shell ||= Aruba.platforms.default_shell # => should return 'bash' on unix
 
-  # Be care full I change generator to interpreter here
-  ScriptFile.new(:interpreter => shell, :content => file_content,
+  ScriptFile.new(:interpreter => shell, :content => commands,
                  :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
 end
