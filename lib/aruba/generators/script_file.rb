@@ -2,9 +2,7 @@
 module Aruba
   # ScriptFile
   class ScriptFile
-
     class AbstractScript
-
       def initialize(path, content)
         @path = path
         @content = content
@@ -27,7 +25,6 @@ module Aruba
         Aruba.platform.write_file(@path, text)
         Aruba.platform.chmod('0755', @path)
       end
-
     end
 
     class ZshFile < AbstractScript

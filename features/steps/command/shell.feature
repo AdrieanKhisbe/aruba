@@ -4,7 +4,7 @@ Feature: Running shell commands
   - `When I run the following script:`
 
   Or you can run shell commands with:
-  - `I run the following (bash|zsh|fish|dash)? commands
+  - `I run the following (bash|zsh|fish|dash)? commands`
 
   Background:
     Given I use a fixture named "cli-app"
