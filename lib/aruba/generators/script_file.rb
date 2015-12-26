@@ -34,7 +34,7 @@ module Aruba
     end
 
     def interpreter_is_just_the_name_of_shell?
-      interpreter == /[a-zA-Z.]+/
+      interpreter == /^[-_a-zA-Z.]+$/
     end
   end
 end
