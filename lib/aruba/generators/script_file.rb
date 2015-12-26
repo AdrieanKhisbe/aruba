@@ -2,75 +2,35 @@
 module Aruba
   # ScriptFile
   class ScriptFile
-    class AbstractScript
-      def initialize(path, content)
-        @path = path
-        @content = content
-      end
-
-      def match?(matcher)
-        matcher == name
-      end
-
-      def name
-        raise Error, 'Name must be redefined'
-      end
-
-      def header
-        "#!/usr/bin/env #{name}"
-      end
-
-      def call
-        text = "#{header}\n#{@content}"
-        Aruba.platform.write_file(@path, text)
-        Aruba.platform.chmod('0755', @path)
-      end
-    end
-
-    class ZshFile < AbstractScript
-      def name
-        'zsh'
-      end
-    end
-
-    class BashFile < AbstractScript
-      def name
-        'bash'
-      end
-    end
-
-    class DashFile < AbstractScript
-      def name
-        'dash'
-      end
-    end
-
-    class FishFile < AbstractScript
-      def name
-        'fish'
-      end
-    end
-
-    class NullShellFile
-      def match?(*)
-        raise ArgumentError, 'Invalid input'
-      end
-    end
-
     def initialize(opts = {})
-      @generators = []
-      @generators << ZshFile
-      @generators << BashFile
-      @generators << FishFile
-      @generators << DashFile
-      @generators << NullShellFile
-      @generator = @generators.find { |g| g.match? opts[:generator] }
-
-      @gen = @generator.new opts[:path], opts[:content]
+      @path        = opts[:path]
+      @content     = opts[:content]
+      @interpreter = opts[:interpreter]
     end
 
     def call
-      @gen.call
+      Aruba.platform.write_file(path, "#{header}\n#{content}")
+      Aruba.platform.chmod('0755', path)
+    end
+
+    private
+
+    def header
+      if interpreter_is_absolute_path
+        format('#! %s', interpreter)
+      elsif interpreter_is_just_the_name_of_shell
+        format('#!/usr/bin/env %s', interpreter)
+      else
+        format('#! %s', interpreter)
+      end
+    end
+
+    def interpreter_is_absolute_path
+      Aruba.platform.absolute_path? interpreter
+    end
+
+    def interpreter_is_just_the_name_of_shell?
+      interpreter == /[a-zA-Z.]+/
     end
   end
 end

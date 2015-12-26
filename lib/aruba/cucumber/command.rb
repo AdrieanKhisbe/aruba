@@ -28,17 +28,13 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   run_simple(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
 end
 
-When(/I run the following script:$/) do |file_content|
+When(/^I run the following commands(?: with `([^`]+))?`:$/) do |shell, commands|
   prepend_environment_variable('PATH', expand_path('bin') + ':')
-  step 'an executable named "./bin/myscript" with:', file_content
-  step 'I run `myscript`'
-end
 
-When(/^I run the following(?: (bash|zsh|fish|dash))? commands?:$/) do |shell_type, file_content|
-  prepend_environment_variable('PATH', expand_path('bin') + ':')
-  shell_type ||= 'bash'
+  shell ||= Aruba.platforms.default_shell # => should return 'bash' on unix
 
-  ScriptFile.new(:generator => shell_type, :content => file_content,
+  # Be care full I change generator to interpreter here
+  ScriptFile.new(:interpreter => shell, :content => file_content,
                  :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
 end
