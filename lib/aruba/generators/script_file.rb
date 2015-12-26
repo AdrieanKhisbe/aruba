@@ -28,31 +28,31 @@ module Aruba
     end
 
     class ZshFile < AbstractScript
-      def self.name
+      def name
         'zsh'
       end
     end
 
     class BashFile < AbstractScript
-      def self.name
+      def name
         'bash'
       end
     end
 
     class DashFile < AbstractScript
-      def self.name
+      def name
         'dash'
       end
     end
 
     class FishFile < AbstractScript
-      def self.name
+      def name
         'fish'
       end
     end
 
     class NullShellFile
-      def self.match?(*)
+      def match?(*)
         raise ArgumentError, 'Invalid input'
       end
     end
