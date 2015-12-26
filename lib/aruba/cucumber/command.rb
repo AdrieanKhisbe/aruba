@@ -28,7 +28,7 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   run_simple(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
 end
 
-When(/^I run the following commands(?: with `([^`]+))?`:$/) do |shell, commands|
+When(/^I run the following commands(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
   prepend_environment_variable('PATH', expand_path('bin') + ':')
 
   shell ||= Aruba.platforms.default_shell # => should return 'bash' on unix

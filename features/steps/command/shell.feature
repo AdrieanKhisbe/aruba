@@ -14,7 +14,7 @@ Feature: Running shell commands
     """
     Feature: Running scripts
       Scenario: Running ruby script
-        When I run the following script:
+        When I run the following commands:
         \"\"\"bash
         #!/usr/bin/env ruby
 
@@ -23,21 +23,14 @@ Feature: Running shell commands
         Then the output should contain exactly "Hello"
 
       Scenario: Running python script
-        When I run the following script:
+        When I run the following commands:
         \"\"\"bash
         #!/usr/bin/env python
 
         print("Hello")
         \"\"\"
         Then the output should contain exactly "Hello"
-    """
-    When I run `cucumber`
-    Then the features should all pass
 
-  Scenario: Running shell commands
-    Given a file named "features/shell.feature" with:
-    """
-    Feature: Running shell commands
       Scenario: Running shell commands
         When I run the following commands:
         \"\"\"bash
@@ -46,7 +39,7 @@ Feature: Running shell commands
         Then the output should contain exactly "Hello shell"
 
       Scenario: Running bash commands
-        When I run the following bash commands:
+        When I run the following commands with `bash:
         \"\"\"bash
         echo -n "Hello "
         echo `echo bash` # subshell
@@ -54,7 +47,7 @@ Feature: Running shell commands
         Then the output should contain exactly "Hello bash"
 
       Scenario: Running zsh commands
-        When I run the following zsh commands:
+        When I run the following commands in `zsh`:
         \"\"\"bash
         echo -n "Hello "
         echo $((2 + 2))
@@ -62,7 +55,7 @@ Feature: Running shell commands
         Then the output should contain exactly "Hello 4"
       
       Scenario: Running fish commands
-        When I run the following fish commands:
+        When I run the following commands with `/usr/bin/env fish:
         \"\"\"bash
         echo -n "Hello "
         echo (echo fish)
