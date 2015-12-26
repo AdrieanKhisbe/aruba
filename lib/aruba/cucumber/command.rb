@@ -31,7 +31,7 @@ end
 When(/^I run the following commands(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
   prepend_environment_variable('PATH', expand_path('bin') + ':')
 
-  shell ||= Aruba.platforms.default_shell # => should return 'bash' on unix
+  shell ||= Aruba.platform.default_shell
 
   ScriptFile.new(:interpreter => shell, :content => commands,
                  :path => expand_path('bin/myscript')).call

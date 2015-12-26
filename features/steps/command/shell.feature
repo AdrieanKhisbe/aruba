@@ -39,7 +39,7 @@ Feature: Running shell commands
         Then the output should contain exactly "Hello shell"
 
       Scenario: Running bash commands
-        When I run the following commands with `bash:
+        When I run the following commands with `bash`:
         \"\"\"bash
         echo -n "Hello "
         echo `echo bash` # subshell
@@ -55,7 +55,7 @@ Feature: Running shell commands
         Then the output should contain exactly "Hello 4"
       
       Scenario: Running fish commands
-        When I run the following commands with `/usr/bin/env fish:
+        When I run the following commands with `/usr/bin/env fish`:
         \"\"\"bash
         echo -n "Hello "
         echo (echo fish)
