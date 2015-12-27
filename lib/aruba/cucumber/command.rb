@@ -1,6 +1,7 @@
 if Aruba::VERSION < '1.0.0'
   require 'aruba/cucumber/core'
 end
+require 'aruba/generators/script_file'
 
 When(/^I run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
@@ -33,7 +34,7 @@ When(/^I run the following commands(?: (?:with|in) `([^`]+)`)?:$/) do |shell, co
 
   shell ||= Aruba.platform.default_shell
 
-  ScriptFile.new(:interpreter => shell, :content => commands,
+  Aruba::ScriptFile.new(:interpreter => shell, :content => commands,
                  :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
 end
