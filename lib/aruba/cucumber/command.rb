@@ -32,6 +32,7 @@ end
 When(/^I run the following commands(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
   prepend_environment_variable('PATH', expand_path('bin') + ':')
 
+  Aruba.platform.mkdir(expand_path('bin'))
   shell ||= Aruba.platform.default_shell
 
   Aruba::ScriptFile.new(:interpreter => shell, :content => commands,

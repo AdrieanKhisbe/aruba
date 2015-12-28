@@ -11,7 +11,7 @@ module Aruba
     def call
       script_content = @content.start_with? '#!' ? @content : "#{header}\n#{@content}"
       Aruba.platform.write_file(@path, script_content)
-      Aruba.platform.chmod('0755', @path)
+      Aruba.platform.chmod(0755, @path, {})
     end
 
     private
