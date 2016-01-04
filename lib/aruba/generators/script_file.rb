@@ -9,7 +9,7 @@ module Aruba
     end
 
     def call
-      script_content = @content.start_with? '#!' ? @content : "#{header}\n#{@content}"
+      script_content = script_starts_with_shebang? ? @content : "#{header}#{@content}"
       Aruba.platform.write_file(@path, script_content)
       Aruba.platform.chmod(0755, @path, {})
     end
@@ -17,12 +17,14 @@ module Aruba
     private
 
     def header
-      if interpreter_is_absolute_path?
-        format('#! %s', @interpreter)
-      elsif interpreter_is_just_the_name_of_shell?
-        format('#!/usr/bin/env %s', @interpreter)
+      if script_starts_with_shebang?
+        ''
       else
-        format('#! %s', @interpreter)
+        if interpreter_is_absolute_path?
+          format('#!%s\n', @interpreter)
+        elsif interpreter_is_just_the_name_of_shell?
+          format('#!/usr/bin/env %s\n', @interpreter)
+        end
       end
     end
 
@@ -33,5 +35,10 @@ module Aruba
     def interpreter_is_just_the_name_of_shell?
       @interpreter == /^[-_a-zA-Z.]+$/
     end
+
+    def script_starts_with_shebang?
+      @content.start_with? '#!'
+    end
+
   end
 end
