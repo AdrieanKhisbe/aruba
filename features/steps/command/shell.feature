@@ -81,6 +81,14 @@ Feature: Running shell commands
         echo $((2 + 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
+
+      Scenario: Running zsh commands
+        When I run the following commands with `/bin/zsh`:
+        \"\"\"bash
+        echo "Hello \c"
+        echo $((6 - 2))
+        \"\"\"
+        Then the output should contain exactly "Hello 4"
     """
     When I run `cucumber`
     Then the features should all pass
@@ -90,6 +98,14 @@ Feature: Running shell commands
     """
     Feature: Running fish scripts
       Scenario: Running fish commands
+        When I run the following commands with `fish`:
+        \"\"\"bash
+        echo -n "Hello "
+        echo (echo fish)
+        \"\"\"
+        Then the output should contain exactly "Hello fish"
+
+      Scenario: Running fish commands with explicit path
         When I run the following commands with `/usr/bin/env fish`:
         \"\"\"bash
         echo -n "Hello "
