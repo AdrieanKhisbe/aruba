@@ -19,12 +19,10 @@ module Aruba
     def header
       if script_starts_with_shebang?
         ''
-      else
-        if interpreter_is_absolute_path?
-          format('#!%s\n', @interpreter)
-        elsif interpreter_is_just_the_name_of_shell?
-          format('#!/usr/bin/env %s\n', @interpreter)
-        end
+      elsif interpreter_is_absolute_path?
+        format("#!%s\n", @interpreter)
+      elsif interpreter_is_just_the_name_of_shell?
+        format("#!/usr/bin/env %s\n", @interpreter)
       end
     end
 

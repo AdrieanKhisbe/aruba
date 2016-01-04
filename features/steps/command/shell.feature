@@ -51,30 +51,6 @@ Feature: Running shell commands
         echo "Hello shell"
         \"\"\"
         Then the output should contain exactly "Hello shell"
-
-      Scenario: Running bash commands
-        When I run the following commands with `bash`:
-        \"\"\"bash
-        echo -n "Hello "
-        echo `echo bash` # subshell
-        \"\"\"
-        Then the output should contain exactly "Hello bash"
-
-      Scenario: Running zsh commands
-        When I run the following commands in `zsh`:
-        \"\"\"bash
-        echo -n "Hello "
-        echo $((2 + 2))
-        \"\"\"
-        Then the output should contain exactly "Hello 4"
-
-      Scenario: Running fish commands
-        When I run the following commands with `/usr/bin/env fish`:
-        \"\"\"bash
-        echo -n "Hello "
-        echo (echo fish)
-        \"\"\"
-        Then the output should contain exactly "Hello fish"
     """
     When I run `cucumber`
     Then the features should all pass
@@ -83,17 +59,10 @@ Feature: Running shell commands
     Given a file named "features/shell.feature" with:
     """
     Feature: Running scripts
-      Scenario: Running shell commands
-        When I run the following commands:
-        \"\"\"bash
-        echo "Hello shell"
-        \"\"\"
-        Then the output should contain exactly "Hello shell"
-
       Scenario: Running bash commands
         When I run the following commands with `bash`:
         \"\"\"bash
-        echo -n "Hello "
+        echo "Hello \c"
         echo `echo bash` # subshell
         \"\"\"
         Then the output should contain exactly "Hello bash"
@@ -108,7 +77,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands
         When I run the following commands in `zsh`:
         \"\"\"bash
-        echo -n "Hello "
+        echo "Hello \c"
         echo $((2 + 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
