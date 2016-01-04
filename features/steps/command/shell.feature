@@ -78,3 +78,55 @@ Feature: Running shell commands
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Running bash commands
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running scripts
+      Scenario: Running shell commands
+        When I run the following commands:
+        \"\"\"bash
+        echo "Hello shell"
+        \"\"\"
+        Then the output should contain exactly "Hello shell"
+
+      Scenario: Running bash commands
+        When I run the following commands with `bash`:
+        \"\"\"bash
+        echo -n "Hello "
+        echo `echo bash` # subshell
+        \"\"\"
+        Then the output should contain exactly "Hello bash"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Running zsh commands
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running zsh scripts
+      Scenario: Running zsh commands
+        When I run the following commands in `zsh`:
+        \"\"\"bash
+        echo -n "Hello "
+        echo $((2 + 2))
+        \"\"\"
+        Then the output should contain exactly "Hello 4"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Running fish commands
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running fish scripts
+      Scenario: Running fish commands
+        When I run the following commands with `/usr/bin/env fish`:
+        \"\"\"bash
+        echo -n "Hello "
+        echo (echo fish)
+        \"\"\"
+        Then the output should contain exactly "Hello fish"
+    """
+    When I run `cucumber`
+    Then the features should all pass
