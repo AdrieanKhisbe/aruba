@@ -9,8 +9,7 @@ module Aruba
     end
 
     def call
-      script_content = script_starts_with_shebang? ? @content : "#{header}#{@content}"
-      Aruba.platform.write_file(@path, script_content)
+      Aruba.platform.write_file(@path, "#{header}#{@content}")
       Aruba.platform.chmod(0755, @path, {})
     end
 
