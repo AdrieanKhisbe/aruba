@@ -9,28 +9,42 @@ Feature: Running shell commands
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Running script
+  Scenario: Running ruby script
     Given a file named "features/shell.feature" with:
     """
     Feature: Running scripts
       Scenario: Running ruby script
-        When I run the following commands:
+        When I run the following script:
         \"\"\"bash
         #!/usr/bin/env ruby
 
         puts "Hello"
         \"\"\"
         Then the output should contain exactly "Hello"
+    """
+    When I run `cucumber`
+    Then the features should all pass
 
+  Scenario: Running python script
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running scripts
       Scenario: Running python script
-        When I run the following commands:
+        When I run the following script:
         \"\"\"bash
         #!/usr/bin/env python
 
         print("Hello")
         \"\"\"
         Then the output should contain exactly "Hello"
+    """
+    When I run `cucumber`
+    Then the features should all pass
 
+  Scenario: Running shell commands
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running scripts
       Scenario: Running shell commands
         When I run the following commands:
         \"\"\"bash
@@ -53,7 +67,7 @@ Feature: Running shell commands
         echo $((2 + 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
-      
+
       Scenario: Running fish commands
         When I run the following commands with `/usr/bin/env fish`:
         \"\"\"bash
